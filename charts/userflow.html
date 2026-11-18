@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Source for public/images/userflow.png. Re-render with a headless browser at 2x, capturing #chart. -->
+<style>
+  @font-face { font-family: 'SG'; font-weight: 600; src: url('../node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-600-normal.woff2'); }
+  @font-face { font-family: 'IN'; font-weight: 400; src: url('../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2'); }
+  @font-face { font-family: 'IN'; font-weight: 600; src: url('../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2'); }
+  :root { --ink:#16242B; --muted:#5A6872; --line:#E2E6E8; --deep:#264653; --teal:#2A9D8F; --teal-ink:#1E7A6E; --orange:#E76F51; --rust:#BC4B2A; }
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1120px; background: #fff; font-family: 'IN', sans-serif; color: var(--ink); }
+  #chart { padding: 36px 44px 30px; }
+
+  .lane { display: grid; grid-template-columns: 170px 1fr; align-items: center; column-gap: 28px; padding: 22px 0; }
+  .lane + .gap + .lane { }
+  .head { border-left: 4px solid var(--c); padding-left: 14px; }
+  .head .n { font: 600 12px 'IN'; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .head .t { font: 600 24px/1.1 'SG'; margin-top: 2px; }
+  .head .w { font: 400 13px 'IN'; color: var(--muted); margin-top: 4px; }
+
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 34px; }
+  .step { position: relative; border: 1.5px solid #B9C2C7; border-radius: 10px; background: #fff; min-height: 68px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: center; font: 400 15px/1.3 'IN'; }
+  .step b { font: 600 15px/1.25 'SG'; }
+  .step small { display: block; font: 400 13px/1.3 'IN'; color: var(--muted); margin-top: 2px; }
+  .step.out { background: #E9F3F1; border-color: var(--teal); }
+  .step:not(:last-child)::after { content: ''; position: absolute; right: -32px; top: 50%; width: 26px; height: 1.5px; background: var(--muted); }
+  .step:not(:last-child)::before { content: ''; position: absolute; right: -33px; top: calc(50% - 4px); border: 4.5px solid transparent; border-left: 6px solid var(--muted); border-right: 0; }
+
+  .either { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .pill { font: 400 13px 'IN'; border-radius: 999px; padding: 3px 10px; border: 1px solid #B9C2C7; background: #fff; }
+  .pill.util { border-style: dashed; color: var(--muted); }
+
+  .gap { display: grid; grid-template-columns: 170px 1fr; column-gap: 28px; }
+  .gap div { grid-column: 2; border-top: 1.5px dashed #C9D0D4; position: relative; }
+  .gap span { position: absolute; left: 50%; top: -11px; transform: translateX(-50%); background: #fff; padding: 0 12px; font: 400 13px 'IN'; color: var(--muted); white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="chart">
+  <div class="lane" style="--c: var(--deep)">
+    <div class="head"><p class="n">Moment 1</p><p class="t">Capture</p><p class="w">At purchase</p></div>
+    <div class="steps">
+      <div class="step"><b>Purchase</b></div>
+      <div class="step"><b>Merchant issues pass</b><small>Nothing typed by the buyer</small></div>
+      <div class="step out"><b>Added to Wallet</b><small>One tap</small></div>
+    </div>
+  </div>
+
+  <div class="gap"><div><span>months, sometimes years</span></div></div>
+
+  <div class="lane" style="--c: var(--teal)">
+    <div class="head"><p class="n">Moment 2</p><p class="t">Retrieve</p><p class="w">Reminder, or it breaks</p></div>
+    <div class="steps">
+      <div class="step"><b>Trigger</b><div class="either"><span class="pill">Reminder fires</span><span class="pill">Item breaks</span></div></div>
+      <div class="step"><b>Find it</b><div class="either"><span class="pill">Browse</span><span class="pill util">Search</span><span class="pill util">Assistant</span></div></div>
+      <div class="step out"><b>Warranty pass</b><small>Coverage stated on the pass</small></div>
+    </div>
+  </div>
+
+  <div class="gap"><div><span>if something is wrong</span></div></div>
+
+  <div class="lane" style="--c: var(--orange)">
+    <div class="head"><p class="n">Moment 3</p><p class="t">Claim</p><p class="w">From the pass</p></div>
+    <div class="steps">
+      <div class="step"><b>New claim</b><small>Pre-filled, proof attached</small></div>
+      <div class="step"><b>Six tracked stages</b><small>Act only when asked</small></div>
+      <div class="step out"><b>Archived</b></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'SG'; font-weight: 600; src: url('file:///c:/Users/Lenovo/Documents/DV2008/node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-600-normal.woff2'); }
+  @font-face { font-family: 'SG'; font-weight: 500; src: url('file:///c:/Users/Lenovo/Documents/DV2008/node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2'); }
+  @font-face { font-family: 'IN'; font-weight: 400; src: url('file:///c:/Users/Lenovo/Documents/DV2008/node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2'); }
+  @font-face { font-family: 'IN'; font-weight: 400; font-style: italic; src: url('file:///c:/Users/Lenovo/Documents/DV2008/node_modules/@fontsource/inter/files/inter-latin-400-italic.woff2'); }
+  @font-face { font-family: 'IN'; font-weight: 600; src: url('file:///c:/Users/Lenovo/Documents/DV2008/node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2'); }
+
+  :root { --ink:#16242B; --muted:#5A6872; --line:#E2E6E8; --rust:#BC4B2A; --teal-ink:#1E7A6E;
+          --s0:#1B3440; --s1:#3A6878; --s2:#7FA3AF; --s3:#C2D5DB; }
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1120px; background: #fff; font-family: 'IN', sans-serif; color: var(--ink); }
+  #chart { padding: 44px 48px 40px; }
+  .eyebrow { font: 600 13px 'IN'; letter-spacing: .14em; text-transform: uppercase; color: var(--teal-ink); }
+  h1 { font: 600 30px/1.15 'SG'; letter-spacing: -.01em; margin-top: 10px; }
+  .cols { display: grid; grid-template-columns: 430px 1fr; gap: 0; margin-top: 34px; }
+  .left { padding-right: 44px; border-right: 1px solid var(--line); }
+  .right { padding-left: 44px; }
+  .label { font: 600 13px 'IN'; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
+
+  .row { margin-top: 26px; }
+  .row .head { display: flex; align-items: baseline; gap: 14px; }
+  .big { font: 600 44px/1 'SG'; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .big small { font-size: 24px; color: var(--muted); font-weight: 500; }
+  .desc { font: 400 16px/1.4 'IN'; color: var(--ink); max-width: 270px; }
+  .dots { display: grid; grid-template-columns: repeat(18, 16px); gap: 5px; margin-top: 14px; }
+  .dot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #C9D0D4; }
+  .dot.on { background: var(--rust); border-color: var(--rust); }
+
+  .bracket { position: relative; height: 54px; margin-top: 26px; }
+  .bracket .b { position: absolute; left: 0; bottom: 8px; height: 12px; border: 2px solid var(--ink); border-bottom: 0; border-radius: 4px 4px 0 0; }
+  .bracket .t { position: absolute; left: 0; bottom: 26px; display: flex; align-items: baseline; gap: 10px; }
+  .bracket .t .big { font-size: 34px; }
+  .bracket .t span { font: 400 16px 'IN'; }
+
+  .bar { display: flex; gap: 2px; height: 46px; }
+  .seg { height: 100%; }
+  .seg:first-child { border-radius: 4px 0 0 4px; }
+  .seg:last-child { border-radius: 0 4px 4px 0; }
+  .legend { position: relative; height: 92px; margin-top: 12px; }
+  .lab { position: absolute; top: 0; }
+  .lab .n { font: 600 26px/1 'SG'; font-variant-numeric: tabular-nums; }
+  .lab .n small { font-size: 15px; color: var(--muted); font-weight: 500; }
+  .lab .k { font: 400 14px/1.35 'IN'; margin-top: 6px; color: var(--ink); }
+  .lab .p { font: 400 14px 'IN'; color: var(--muted); }
+  .key { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+
+  .quotes { margin-top: 34px; padding-top: 22px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .quotes p { font: italic 400 16px/1.5 'IN'; color: var(--ink); }
+  .quotes .who { font: 600 12px 'IN'; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 6px; font-style: normal; }
+</style>
+</head>
+<body>
+<div id="chart">
+  <p class="eyebrow">Want vs do</p>
+  <h1>18 people asked for a warranty app. 15 of them track nothing.</h1>
+
+  <div class="cols">
+    <div class="left">
+      <p class="label">The 18 who said a dedicated warranty app<br>would be most useful to them</p>
+
+      <div class="row">
+        <div class="head"><span class="big">15<small>/18</small></span><span class="desc">currently track nothing at all</span></div>
+        <div class="dots" id="d1"></div>
+      </div>
+      <div class="row">
+        <div class="head"><span class="big">7<small>/18</small></span><span class="desc">would have recorded zero purchases in the past 12 months</span></div>
+        <div class="dots" id="d2"></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <p class="label">All 43 respondents: purchases with a warranty<br>they would have recorded in the past 12 months</p>
+      <div class="bracket" id="br"><div class="t"><span class="big">74%</span><span>would have recorded 2 items or fewer</span></div><div class="b"></div></div>
+      <div class="bar" id="bar"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </div>
+
+  <div class="quotes">
+    <div><p>“I don’t think I will have the habit of going into the app to track regularly”</p></div>
+    <div><p>“might not have the habit of consistently recording purchases that comes with warranties.”</p></div>
+  </div>
+</div>
+
+<script>
+  const dots = (id, on) => { document.getElementById(id).innerHTML = Array.from({ length: 18 }, (_, i) => `<span class="dot ${i < on ? 'on' : ''}"></span>`).join('') }
+  dots('d1', 15); dots('d2', 7)
+
+  // 43 respondents. 3–5 is the remainder: 43 − 17 − 15 − 2 = 9 (20.9%, matching the source pie)
+  const data = [
+    { k: '0 items', n: 17, c: 'var(--s0)' },
+    { k: '1–2 items', n: 15, c: 'var(--s1)' },
+    { k: '3–5 items', n: 9, c: 'var(--s2)' },
+    { k: '6+ items', n: 2, c: 'var(--s3)' },
+  ]
+  const total = 43
+  const bar = document.getElementById('bar'), legend = document.getElementById('legend')
+  const W = bar.getBoundingClientRect().width, gaps = 2 * (data.length - 1)
+  let x = 0
+  data.forEach((d, i) => {
+    const w = (W - gaps) * d.n / total
+    bar.insertAdjacentHTML('beforeend', `<div class="seg" style="width:${w}px;background:${d.c}"></div>`)
+    const pct = (d.n / total * 100).toFixed(1)
+    const last = i === data.length - 1
+    if (last) {
+      // the 4.7% sliver is too narrow to label underneath: label it above the bar, right-aligned
+      document.getElementById('br').insertAdjacentHTML('beforeend', `<div class="lab" style="right:0;top:auto;bottom:6px;text-align:right"><div class="n">${d.n}<small>/43</small></div><div class="k" style="margin-top:4px"><span class="key" style="background:${d.c}"></span>${d.k} · <span class="p">${pct}%</span></div></div>`)
+    } else {
+      legend.insertAdjacentHTML('beforeend', `<div class="lab" style="left:${x}px"><div class="n">${d.n}<small>/43</small></div><div class="k"><span class="key" style="background:${d.c}"></span>${d.k}</div><div class="p">${pct}%</div></div>`)
+    }
+    x += w + 2
+  })
+  const first2 = (W - gaps) * 32 / total + 2
+  document.querySelector('#br .b').style.width = first2 + 'px'
+</script>
+</body>
+</html>

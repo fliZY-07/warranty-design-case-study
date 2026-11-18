@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #16242b;
+  --paper: #fbfaf7;
+  --surface: #ffffff;
+  --line: #e2e6e8;
+  --muted: #5a6872;
+  --deep: #264653;
+  --teal: #2a9d8f;
+  --teal-ink: #1e7a6e;
+  --orange: #e76f51;
+  --rust: #bc4b2a;
+  /* muted text on --deep: 6.3:1 */
+  --mist: #c5ced1;
+}
+
+/* Section tones. Components read --sec-* so a section's colours can be eased as a group. */
+.tone-paper,
+.tone-surface,
+.tone-deep {
+  background-color: var(--sec-bg);
+  color: var(--sec-fg);
+}
+.tone-paper {
+  --sec-bg: var(--paper);
+  --sec-fg: var(--ink);
+  --sec-muted: var(--muted);
+  --sec-line: var(--line);
+  --sec-label: var(--teal-ink);
+  --sec-card: var(--surface);
+}
+.tone-surface {
+  --sec-bg: var(--surface);
+  --sec-fg: var(--ink);
+  --sec-muted: var(--muted);
+  --sec-line: var(--line);
+  --sec-label: var(--teal-ink);
+  --sec-card: var(--paper);
+}
+.tone-deep {
+  --sec-bg: var(--deep);
+  --sec-fg: var(--paper);
+  --sec-muted: var(--mist);
+  --sec-line: rgba(251, 250, 247, 0.18);
+  --sec-label: var(--mist);
+  --sec-card: rgba(251, 250, 247, 0.06);
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  background: var(--paper);
+  font-family: Inter, system-ui, sans-serif;
+  font-feature-settings: 'ss01', 'cv11';
+  overflow-x: hidden;
+}
+h1, h2, h3 {
+  font-family: 'Open Sauce One', 'Space Grotesk', system-ui, sans-serif;
+  text-wrap: balance;
+}
+p { text-wrap: pretty; }
+
+:focus-visible {
+  outline: 3px solid var(--teal-ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.tone-deep :focus-visible { outline-color: var(--paper); }
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 16px;
+}
+.skip-link:focus { top: 12px; }
+
+/* ---------- Figures: graceful when the image file is absent ---------- */
+.figure-frame {
+  border: 1px dashed #B9C2C7;
+  background: var(--surface);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.figure-frame.is-loaded { border-style: solid; }
+/* screenshots carry their own device shape: once loaded, drop the frame and lift them off the page */
+.figure-frame.frame-bare.is-loaded { border-color: transparent; background: transparent; overflow: visible; }
+.shot-shadow { filter: drop-shadow(0 10px 24px rgba(22, 36, 43, 0.12)) drop-shadow(0 1px 2px rgba(22, 36, 43, 0.08)); }
+.tone-deep .figure-frame { border-color: rgba(251, 250, 247, 0.28); }
+
+/* ---------- Before / after: slider on wide screens, two-up elsewhere ---------- */
+.ba-static { display: grid; }
+.ba-slider { display: none; }
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .ba-static { display: none; }
+  .ba-slider { display: block; }
+}
+
+/* ---------- Carousel progress segment ---------- */
+.carousel-fill { transform: scaleX(1); }
+.carousel-fill.is-playing { animation: carousel-fill linear both; }
+@keyframes carousel-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ---------- Reduced motion: everything at its final state ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Print / PDF export ---------- */
+@media print {
+  @page { margin: 16mm 14mm; }
+  html, body { background: #fff !important; }
+  *, *::before, *::after {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .no-print, .progress-bar, .section-nav, .skip-link { display: none !important; }
+  .pin-spacer { padding: 0 !important; height: auto !important; width: auto !important; }
+  [data-pin] { position: static !important; inset: auto !important; width: auto !important; max-width: none !important; }
+  .sticky, [style*='position: fixed'] { position: static !important; }
+  /* no dark full-bleed blocks on paper */
+  .tone-paper, .tone-surface, .tone-deep {
+    --sec-bg: #fff !important;
+    --sec-fg: var(--ink) !important;
+    --sec-muted: var(--muted) !important;
+    --sec-line: var(--line) !important;
+    --sec-label: var(--teal-ink) !important;
+    --sec-card: #fff !important;
+    background: #fff !important;
+    color: var(--ink) !important;
+  }
+  .tone-deep { border-top: 3px solid var(--deep); }
+  .carousel { display: none !important; }
+  .carousel-print { display: grid !important; }
+  .ba-static { display: grid !important; }
+  .ba-slider { display: none !important; }
+  .count-live { display: none !important; }
+  .count-final { position: static !important; width: auto !important; height: auto !important; clip: auto !important; margin: 0 !important; overflow: visible !important; white-space: normal !important; }
+  figure, table, .avoid-break, blockquote { break-inside: avoid; page-break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+  section { padding-top: 24px !important; padding-bottom: 24px !important; }
+  a { color: inherit; text-decoration: none; }
+}
